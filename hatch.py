@@ -270,9 +270,9 @@ altNames = None
 
 def YOLO():
     global metaMain, netMain, altNames
-    configPath = "./cfg/hatch.cfg"
-    weightPath = "./backup/hatch.weights"
-    metaPath = "./cfg/hatch.data"
+    configPath = "./hatch.cfg"
+    weightPath = "./hatch.weights"
+    metaPath = "./hatch.data"
     if not os.path.exists(configPath):
         raise ValueError("Invalid config path `" +
                          os.path.abspath(configPath)+"`")
