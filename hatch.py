@@ -251,14 +251,12 @@ def cvDrawBoxes(detections, img):
                     (pt1[0], pt1[1] + 20), cv2.FONT_HERSHEY_SIMPLEX, 1,
                     [0, 255, 0], 4)
 
-        print('x:'+str(detection[2][0])+", y:"+ str(detection[2][1]))
+        sd.putNumber('Hatch X', detection[2][0]+detection[2][2]/2)
+        sd.putNumber('Hatch Y', detection[2][1]+detection[2][3]/2)
         det = det+1
 
-
-    sd.putBoolean('Detection', det>0)
+    sd.putBoolean('Hatch Detected', det>0)
     sd.putNumber('Amount of Detections', det)
-    print(det>0)
-
 
     return img
 
@@ -307,11 +305,13 @@ def YOLO():
                     pass
         except Exception:
             pass
+
     cap = cv2.VideoCapture(1)
     cap.set(3, 1280)
     cap.set(4, 720)
     
     print("Starting the YOLO loop...")
+
     while True:
         prev_time = time.time()
         ret, frame_read = cap.read()
@@ -323,18 +323,17 @@ def YOLO():
         detections = detect(netMain, metaMain, frame_resized, thresh=0.5)
         image = cvDrawBoxes(detections, frame_resized)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)      
-        cv2.putText(image, "Frame Rate: " + str(int(round(1/(time.time()-prev_time)))) ,
-                    (0,25), cv2.FONT_HERSHEY_SIMPLEX, 1,
-                    [0, 255, 0], 4)
+        # cv2.putText(image, "Frame Rate: " + str(int(round(1/(time.time()-prev_time)))) ,
+        #             (0,25), cv2.FONT_HERSHEY_SIMPLEX, 1,
+        #             [0, 255, 0], 4)
 
-        cv2.imshow("Detector", image)
+        # cv2.imshow("Detector", image)
 	
         # Press 'q' to quit
-        if cv2.waitKey(1) == ord('q'):
-            break
+        # if cv2.waitKey(1) == ord('q'):
+        #     break
 
     cap.release()
-    out.release()
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
